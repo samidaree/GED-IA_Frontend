@@ -32,13 +32,46 @@ const Folder = () => {
                 const data = await readPdfFile(file);
                 const thumbnail = data.thumbnail;
 
-                setFileList(fileList => [...fileList, { name: file.name, thumbnail }]);
+                setFileList(fileList => [...fileList, { name: file.name, thumbnail, fileObject: file }]);
             } else {
-                setFileList(fileList => [...fileList, { name: file.name }]);
+                setFileList(fileList => [...fileList, { name: file.name, fileObject: file }]);
             }
         }
 
         //setContent(); 
+    }
+
+    async function handleClick(index) {
+        console.log('Clicked on card:', index);
+        setSelectedFile(fileList[index]);
+        console.log("selected ", fileList[index]);
+        const file = fileList[index].fileObject;
+
+        // Read the contents of the file
+        const fileReader = new FileReader();
+        fileReader.readAsText(file);
+        fileReader.onload = async () => {
+            const fileContents = fileReader.result;
+
+            // Send the file contents to the backend
+            try {
+                const response = await fetch('http://localhost:5000/upload-text', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: fileContents })
+                });
+
+                const data = await response.text();
+
+                console.log('Response received from server:', data);
+            } catch (error) {
+                console.error('Error sending request:', error);
+            }
+
+            navigate('/file', { state: { selectedFile: fileList[index], fileName: fileList[index].name, fileThumbnail: fileList[index].thumbnail } });
+        };
     }
 
     async function readPdfFile(file) {
@@ -76,45 +109,7 @@ const Folder = () => {
     const navigate = useNavigate();
 
 
-    async function handleClick(index) {
-        console.log('Clicked on card:', index);
-        setSelectedFile(fileList[index]);
-        console.log("selected " + fileList[index]);
-        const file = fileList[index];
-        const formData = new FormData();
-        formData.append('file', fileList[index].name);
-        console.log(formData);
-        try {
-            const response = await fetch('http://localhost:5000/upload-file', {
-                method: 'POST',
-                body: formData
-            });
 
-            const data = await response.text();
-
-            console.log('Response received from server:', data);
-        } catch (error) {
-            console.error('Error sending request:', error);
-        }
-
-        /*try {
-            const response = await fetch('http://localhost:5000/openai/summary', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-
-            const data = await response.json();
-
-            console.log('Response received from server:', data);
-        } catch (error) {
-            console.error('Error sending request:', error);
-        } */
-
-        navigate('/file', { state: { selectedFile: fileList[index], fileName: fileList[index].name, fileThumbnail: fileList[index].thumbnail } });
-    }
 
     return (
         <div>
