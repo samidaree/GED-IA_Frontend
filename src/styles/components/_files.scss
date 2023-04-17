@@ -1,0 +1,32 @@
+.file-page {
+  margin: 30px;
+
+}
+
+.file-cover {
+  filter: grayscale(50%);
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* File Name */
+.file-name {
+  font-size: 3rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.button {
+  display: flex;
+  justify-content: space-around;
+}
+
+textarea {
+  width: 100%;
+  resize: none;
+  padding: 10px;
+  margin: 20px 0px;
+}
