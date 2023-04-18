@@ -51,20 +51,26 @@ const Folder = () => {
 
         // Read the contents of the file
         try {
-            let fileContents, thumbnail;
+            let fileContents, thumbnail, articleData, data;
 
             // Extract text and thumbnail from PDF file
             if (file.type === 'application/pdf') {
-                const data = await readPdfFile(file);
+                data = await readPdfFile(file);
                 fileContents = data.text;
                 thumbnail = data.thumbnail;
-                data.
+                articleData = extractArticles(data.outline, fileContents);
+                Object.values(articleData).forEach(article => {
+                    const { title, content } = article;
+                    console.log(`Title: ${title}`);
+                    console.log(`Article content: ${content}`);
+                });
             } else {
                 fileContents = await readFileAsText(file);
                 thumbnail = fileList[index].thumbnail;
+                articleData = { 0: { title: file.name, start: 0, end: fileContents.length } };
             }
 
-            console.log(fileContents);
+            console.log("fileContents" + fileContents);
 
             // Send the file contents to the backend
             const response = await fetch('http://localhost:5000/upload-text', {
@@ -83,7 +89,8 @@ const Folder = () => {
                 state: {
                     selectedFile: fileList[index],
                     fileName: fileList[index].name,
-                    fileThumbnail: thumbnail
+                    fileThumbnail: thumbnail,
+                    //articleData: extractArticles(data.outline, data.pageCount, fileContents) // Update here
                 }
             });
         } catch (error) {
@@ -91,6 +98,29 @@ const Folder = () => {
         }
     }
 
+
+    function extractArticles(outline, fileContents) {
+        const articleData = {};
+
+        // Extract text for each article based on the outline
+        outline.forEach((item, index) => {
+            if (index === outline.length - 1) return;
+
+            // Use regex to find article title and content
+            const regex = new RegExp(`${item.title}\n(.*)\n${outline[index + 1].title}`, 's');
+            const match = fileContents.match(regex);
+
+            if (match) {
+                articleData[index] = { title: item.title, content: match[1].trim() };
+            }
+        });
+        Object.values(articleData).forEach(article => {
+            const { title, content } = article;
+            console.log(`Title: ${title}`);
+            console.log(`Article content: ${content}`);
+        });
+        return articleData;
+    }
 
     async function readPdfFile(file) {
         const reader = new FileReader();
@@ -101,7 +131,6 @@ const Folder = () => {
 
         pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
         const loadingTask = pdfjs.getDocument({ data: await fileDataPromise });
-
         const pdfData = await loadingTask.promise;
         const page = await pdfData.getPage(1);
         const viewport = page.getViewport({ scale: 1 });
@@ -121,6 +150,14 @@ const Folder = () => {
         const thumbnail = canvas.toDataURL();
         const pageCount = pdfData.numPages;
         let text = '';
+        let outline = null;
+
+        try {
+            outline = await pdfData.getOutline(); // Get the outline data
+            console.log(outline); // Log the outline data to the console
+        } catch (error) {
+            console.error('Error getting outline:', error);
+        }
 
         for (let i = 1; i <= pageCount; i++) {
             const page = await pdfData.getPage(i);
@@ -128,7 +165,7 @@ const Folder = () => {
             text += content.items.map(item => item.str + ' ').join('');
         }
 
-        return { thumbnail, pageCount, text };
+        return { thumbnail, pageCount, text, outline };
     }
 
 
