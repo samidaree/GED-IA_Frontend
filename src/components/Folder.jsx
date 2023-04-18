@@ -16,6 +16,8 @@ const Folder = () => {
     const [fileList, setFileList] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         console.log(fileList);
     }, [fileList]);
@@ -48,31 +50,46 @@ const Folder = () => {
         const file = fileList[index].fileObject;
 
         // Read the contents of the file
-        const fileReader = new FileReader();
-        fileReader.readAsText(file);
-        fileReader.onload = async () => {
-            const fileContents = fileReader.result;
+        try {
+            let fileContents, thumbnail;
 
-            // Send the file contents to the backend
-            try {
-                const response = await fetch('http://localhost:5000/upload-text', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ text: fileContents })
-                });
-
-                const data = await response.text();
-
-                console.log('Response received from server:', data);
-            } catch (error) {
-                console.error('Error sending request:', error);
+            // Extract text and thumbnail from PDF file
+            if (file.type === 'application/pdf') {
+                const data = await readPdfFile(file);
+                fileContents = data.text;
+                thumbnail = data.thumbnail;
+            } else {
+                fileContents = await readFileAsText(file);
+                thumbnail = fileList[index].thumbnail;
             }
 
-            navigate('/file', { state: { selectedFile: fileList[index], fileName: fileList[index].name, fileThumbnail: fileList[index].thumbnail } });
-        };
+            console.log(fileContents);
+
+            // Send the file contents to the backend
+            const response = await fetch('http://localhost:5000/upload-text', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: fileContents })
+            });
+
+            const responseData = await response.text();
+
+            console.log('Response received from server:', responseData);
+
+            navigate('/file', {
+                state: {
+                    selectedFile: fileList[index],
+                    fileName: fileList[index].name,
+                    fileThumbnail: thumbnail
+                }
+            });
+        } catch (error) {
+            console.error('Error reading file:', error);
+        }
     }
+
 
     async function readPdfFile(file) {
         const reader = new FileReader();
@@ -100,13 +117,18 @@ const Folder = () => {
 
         await page.render(renderContext).promise;
 
-        return {
-            thumbnail: canvas.toDataURL(),
-            pageCount: pdfData.numPages
-        };
-    }
+        const thumbnail = canvas.toDataURL();
+        const pageCount = pdfData.numPages;
+        let text = '';
 
-    const navigate = useNavigate();
+        for (let i = 1; i <= pageCount; i++) {
+            const page = await pdfData.getPage(i);
+            const content = await page.getTextContent();
+            text += content.items.map(item => item.str + ' ').join('');
+        }
+
+        return { thumbnail, pageCount, text };
+    }
 
 
 
