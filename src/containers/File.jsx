@@ -19,7 +19,7 @@ const File = (props) => {
                 <div className="file-cover">
                     <img src={fileThumbnail}></img>
                 </div>
-                <div className="button">
+                <div className="buttons">
                     <button className="button-summary">
                         Faire un résumé
                     </button>

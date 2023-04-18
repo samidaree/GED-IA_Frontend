@@ -11,7 +11,7 @@ const Folder = () => {
         <label htmlFor="folder" className="file-upload" >
             Choisir un dossier
         </label>
-        <input type="file" name="file" id="folder" onChange={handleFileUpload} style={{ display: "none" }} accept=".pdf, .docx" webkitdirectory="true" directory="true" multiple ></input>
+        <input type="file" name="file" id="folder" onChange={handleFileUpload} style={{ display: "none" }} webkitdirectory="true" directory="true" multiple ></input>
     </div>)
     const [fileList, setFileList] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);

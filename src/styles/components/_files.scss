@@ -1,32 +1,58 @@
-.file-page {
-  margin: 30px;
-
-}
-
-.file-cover {
-  filter: grayscale(50%);
-  padding: 20px;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* File Name */
 .file-name {
-  font-size: 3rem;
+  margin : 30px ; 
   text-align: center;
-  margin-top: 2rem;
+  color : $color-3; 
 }
 
-.button {
-  display: flex;
-  justify-content: space-around;
+.file-cover{
+  text-align: center;
+  padding : 15px; 
+}
+.file-cover img {
+  box-shadow : 0px 0px 10px black ; 
+  border : 2px solid transparent ;
+  border-radius: 20px;
 }
 
-textarea {
-  width: 100%;
-  resize: none;
-  padding: 10px;
-  margin: 20px 0px;
+.buttons {
+  padding : 40px; 
+  display : flex; 
+  justify-content:space-around; 
+}
+
+.button-summary, .button-index {
+   background : transparent;
+   border: 0; 
+   color : white;   
+   position : relative; 
+   overflow : hidden ;  
+   padding : 20px 50px; 
+   border-radius : 20px; 
+    box-shadow : 0px -0px 0px 0px 
+    rgba(143,64,248,0.5), 0px 0px 0px 0px rgba(39,
+    200, 255, 0.5); 
+    transition : all 0.2s ;  
+    cursor : pointer ;
+
+}
+
+.button-summary::after, .button-index::after{
+  content : ""; 
+  width : 400px; 
+  height : 400px; 
+  background : linear-gradient(225deg, #27d86c
+  0%, #26caf8 50%, #c625d0 100%); 
+  position : absolute ;
+  top : -50px; 
+  left: -100px; 
+  z-index : -1;  
+  transition : all 0.5s ; 
+}
+
+.button-summary:hover::after, .button-index:hover::after {
+  transform : rotate(150deg); 
+}
+.button-summary:hover, .button-index:hover {
+  transform : translate(0,-6px);  
+  box-shadow: 10px -10px 25px 0px rgba(143, 64, 248, .25), -10px 10px 25px 0px rgba(39, 200, 255, .25);
 }

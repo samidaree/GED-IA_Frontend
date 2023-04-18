@@ -10,12 +10,12 @@
       padding: 10px;
 
       li {
-        color: $color-1;
+        color: $color-1b;
         transition: 0.2s;
         cursor: pointer;
 
         &:hover {
-          color: $color-2;
+          color: $color-3;
         }
       }
     }
