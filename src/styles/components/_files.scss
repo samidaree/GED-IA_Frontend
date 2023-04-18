@@ -1,58 +1,74 @@
 .file-name {
-  margin : 30px ; 
+  margin: 30px;
   text-align: center;
-  color : $color-3; 
+  color: $color-3;
 }
 
-.file-cover{
+.file-cover {
   text-align: center;
-  padding : 15px; 
+  padding: 15px;
 }
+
 .file-cover img {
-  box-shadow : 0px 0px 10px black ; 
-  border : 2px solid transparent ;
+  box-shadow: 0px 0px 10px black;
+  border: 2px solid transparent;
   border-radius: 20px;
 }
 
 .buttons {
-  padding : 40px; 
-  display : flex; 
-  justify-content:space-around; 
+  padding: 40px;
+  display: flex;
+  justify-content: space-around;
 }
 
-.button-summary, .button-index {
-   background : transparent;
-   border: 0; 
-   color : white;   
-   position : relative; 
-   overflow : hidden ;  
-   padding : 20px 50px; 
-   border-radius : 20px; 
-    box-shadow : 0px -0px 0px 0px 
-    rgba(143,64,248,0.5), 0px 0px 0px 0px rgba(39,
-    200, 255, 0.5); 
-    transition : all 0.2s ;  
-    cursor : pointer ;
+.button-summary,
+.button-index {
+  background: transparent;
+  border: 0;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  padding: 20px 50px;
+  border-radius: 20px;
+  box-shadow: 0px -0px 0px 0px rgba(143, 64, 248, 0.5), 0px 0px 0px 0px rgba(39,
+      200, 255, 0.5);
+  transition: all 0.2s;
+  cursor: pointer;
 
 }
 
-.button-summary::after, .button-index::after{
-  content : ""; 
-  width : 400px; 
-  height : 400px; 
-  background : linear-gradient(225deg, #27d86c
-  0%, #26caf8 50%, #c625d0 100%); 
-  position : absolute ;
-  top : -50px; 
-  left: -100px; 
-  z-index : -1;  
-  transition : all 0.5s ; 
+.button-summary::after,
+.button-index::after {
+  content: "";
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(225deg, #27d86c 0%, #26caf8 50%, #c625d0 100%);
+  position: absolute;
+  top: -50px;
+  left: -100px;
+  z-index: -1;
+  transition: all 0.5s;
 }
 
-.button-summary:hover::after, .button-index:hover::after {
-  transform : rotate(150deg); 
+.button-summary:hover::after,
+.button-index:hover::after {
+  transform: rotate(150deg);
 }
-.button-summary:hover, .button-index:hover {
-  transform : translate(0,-6px);  
+
+.button-summary:hover,
+.button-index:hover {
+  transform: translate(0, -6px);
   box-shadow: 10px -10px 25px 0px rgba(143, 64, 248, .25), -10px 10px 25px 0px rgba(39, 200, 255, .25);
+}
+
+textarea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  border: none;
+  border-radius: 15px;
+  padding: 10px;
+  resize: none;
+  width: 80%;
 }

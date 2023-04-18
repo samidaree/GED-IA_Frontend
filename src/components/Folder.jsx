@@ -58,6 +58,7 @@ const Folder = () => {
                 const data = await readPdfFile(file);
                 fileContents = data.text;
                 thumbnail = data.thumbnail;
+                data.
             } else {
                 fileContents = await readFileAsText(file);
                 thumbnail = fileList[index].thumbnail;
