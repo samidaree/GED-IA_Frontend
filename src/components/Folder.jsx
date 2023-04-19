@@ -105,13 +105,15 @@ const Folder = () => {
         const articleData = {};
 
         // Extract text for each article based on the outline
-        let startIndex = fileContents.indexOf(outline[0].title);
+        let startIndex = fileContents.toLowerCase().replace(/\s/g, '').indexOf(outline[0].title.replace(/\s/g, '').toLowerCase());
         console.log('Start index:', startIndex); // Check the start index
         for (let i = 0; i < outline.length - 1; i++) {
-            const start = fileContents.indexOf(outline[i].title, startIndex);
+            const titleNoSpaces = outline[i].title.replace(/\s/g, '').toLowerCase();
+            const fileContentsNoSpaces = fileContents.replace(/\s/g, '').toLowerCase();
+            const start = fileContentsNoSpaces.indexOf(titleNoSpaces, startIndex);
             if (start === -1) continue;
 
-            const end = fileContents.indexOf(outline[i + 1].title, start);
+            const end = fileContentsNoSpaces.indexOf(outline[i + 1].title.replace(/\s/g, '').toLowerCase(), start);
             if (end === -1) continue;
 
             console.log(`Article ${i} start index: ${startIndex}`);
@@ -129,7 +131,7 @@ const Folder = () => {
 
         // Extract text for the last article
         const lastTitle = outline[outline.length - 1].title;
-        const start = fileContents.indexOf(lastTitle, startIndex);
+        const start = fileContents.toLowerCase().replace(/\s/g, '').indexOf(lastTitle.replace(/\s/g, '').toLowerCase(), startIndex);
         if (start !== -1) {
             try {
                 articleData[outline.length - 1] = { title: lastTitle, content: fileContents.slice(start + lastTitle.length).trim() };
@@ -142,7 +144,6 @@ const Folder = () => {
 
         return articleData;
     }
-
 
 
     async function readPdfFile(file) {
