@@ -103,10 +103,10 @@ const Folder = () => {
 
     function extractArticles(outline, fileContents) {
         const articleData = {};
-        console.log("outline + " + outline);
 
         // Extract text for each article based on the outline
-        let startIndex = 0;
+        let startIndex = fileContents.indexOf(outline[0].title);
+        console.log('Start index:', startIndex); // Check the start index
         for (let i = 0; i < outline.length - 1; i++) {
             const start = fileContents.indexOf(outline[i].title, startIndex);
             if (start === -1) continue;
@@ -118,7 +118,12 @@ const Folder = () => {
             console.log(`Article ${i} start position: ${start}`);
             console.log(`Article ${i} end position: ${end}`);
 
-            articleData[i] = { title: outline[i].title, content: fileContents.slice(start + outline[i].title.length, end).trim() };
+            try {
+                articleData[i] = { title: outline[i].title, content: fileContents.slice(start + outline[i].title.length, end).trim() };
+            } catch (error) {
+                console.error(`Error extracting article data for article ${i}:`, error);
+            }
+
             startIndex = end;
         }
 
@@ -126,17 +131,19 @@ const Folder = () => {
         const lastTitle = outline[outline.length - 1].title;
         const start = fileContents.indexOf(lastTitle, startIndex);
         if (start !== -1) {
-            articleData[outline.length - 1] = { title: lastTitle, content: fileContents.slice(start + lastTitle.length).trim() };
+            try {
+                articleData[outline.length - 1] = { title: lastTitle, content: fileContents.slice(start + lastTitle.length).trim() };
+            } catch (error) {
+                console.error('Error extracting article data for last article:', error);
+            }
         }
 
-        Object.values(articleData).forEach(article => {
-            const { title, content } = article;
-            console.log(`Title: ${title}`);
-            console.log(`Article content: ${content}`);
-        });
+        console.log('Extracted article data:', articleData);
 
         return articleData;
     }
+
+
 
     async function readPdfFile(file) {
         const reader = new FileReader();
