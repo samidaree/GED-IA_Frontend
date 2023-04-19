@@ -43,6 +43,8 @@ const Folder = () => {
         //setContent(); 
     }
 
+
+
     async function handleClick(index) {
         console.log('Clicked on card:', index);
         setSelectedFile(fileList[index]);
@@ -101,24 +103,38 @@ const Folder = () => {
 
     function extractArticles(outline, fileContents) {
         const articleData = {};
+        console.log("outline + " + outline);
 
         // Extract text for each article based on the outline
-        outline.forEach((item, index) => {
-            if (index === outline.length - 1) return;
+        let startIndex = 0;
+        for (let i = 0; i < outline.length - 1; i++) {
+            const start = fileContents.indexOf(outline[i].title, startIndex);
+            if (start === -1) continue;
 
-            // Use regex to find article title and content
-            const regex = new RegExp(`${item.title}\n(.*)\n${outline[index + 1].title}`, 's');
-            const match = fileContents.match(regex);
+            const end = fileContents.indexOf(outline[i + 1].title, start);
+            if (end === -1) continue;
 
-            if (match) {
-                articleData[index] = { title: item.title, content: match[1].trim() };
-            }
-        });
+            console.log(`Article ${i} start index: ${startIndex}`);
+            console.log(`Article ${i} start position: ${start}`);
+            console.log(`Article ${i} end position: ${end}`);
+
+            articleData[i] = { title: outline[i].title, content: fileContents.slice(start + outline[i].title.length, end).trim() };
+            startIndex = end;
+        }
+
+        // Extract text for the last article
+        const lastTitle = outline[outline.length - 1].title;
+        const start = fileContents.indexOf(lastTitle, startIndex);
+        if (start !== -1) {
+            articleData[outline.length - 1] = { title: lastTitle, content: fileContents.slice(start + lastTitle.length).trim() };
+        }
+
         Object.values(articleData).forEach(article => {
             const { title, content } = article;
             console.log(`Title: ${title}`);
             console.log(`Article content: ${content}`);
         });
+
         return articleData;
     }
 
