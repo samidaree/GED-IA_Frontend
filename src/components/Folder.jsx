@@ -107,6 +107,12 @@ const Folder = () => {
         // Extract text for each article based on the outline
         let startIndex = fileContents.toLowerCase().replace(/\s/g, '').indexOf(outline[0].title.replace(/\s/g, '').toLowerCase());
         console.log('Start index:', startIndex); // Check the start index
+
+        // Skip the first occurrence of the title
+        const titleNoSpaces = outline[0].title.replace(/\s/g, '').toLowerCase();
+        const fileContentsNoSpaces = fileContents.replace(/\s/g, '').toLowerCase();
+        startIndex = fileContentsNoSpaces.indexOf(titleNoSpaces, startIndex + titleNoSpaces.length);
+
         for (let i = 0; i < outline.length - 1; i++) {
             const titleNoSpaces = outline[i].title.replace(/\s/g, '').toLowerCase();
             const fileContentsNoSpaces = fileContents.replace(/\s/g, '').toLowerCase();
@@ -144,7 +150,6 @@ const Folder = () => {
 
         return articleData;
     }
-
 
     async function readPdfFile(file) {
         const reader = new FileReader();

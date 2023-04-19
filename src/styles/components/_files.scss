@@ -37,8 +37,20 @@
 
 }
 
-.button-summary::after,
+
 .button-index::after {
+  content: "";
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(225deg, yellow 0%, $color-2 50%, #c625d0 100%);
+  position: absolute;
+  top: -50px;
+  left: -100px;
+  z-index: -1;
+  transition: all 0.5s;
+}
+
+.button-summary::after {
   content: "";
   width: 400px;
   height: 400px;

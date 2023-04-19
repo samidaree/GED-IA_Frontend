@@ -10,7 +10,7 @@ const Home = () => {
         <div>
             <Logo />
             <Navigation />
-            <SearchBar />
+            { /*<SearchBar /> */}
             <Folder />
         </div>
     );

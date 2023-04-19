@@ -12,7 +12,7 @@ const File = (props) => {
         <>
             <Logo />
             <Navigation />
-            <SearchBar />
+            { /*<SearchBar /> */}
             <div className="file-page">
                 <h2 className="file-name">{fileName}</h2>
 
