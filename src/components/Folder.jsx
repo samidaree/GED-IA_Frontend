@@ -130,7 +130,7 @@ const Folder = () => {
             console.log(`Article ${i} end position: ${end}`);
 
             try {
-                articleData[i] = { title: outline[i].title, content: fileContents.slice(start, end).trim() };
+                articleData[i] = { title: outline[i].title, content: fileContentsNoSpaces.slice(start, end).trim() };
             } catch (error) {
                 console.error(`Error extracting article data for article ${i}:`, error);
             }
@@ -143,7 +143,7 @@ const Folder = () => {
         const start = fileContents.toLowerCase().replace(/\s/g, '').indexOf(lastTitle.replace(/\s/g, '').toLowerCase(), startIndex);
         if (start !== -1) {
             try {
-                articleData[outline.length - 1] = { title: lastTitle, content: fileContents.slice(start + lastTitle.length).trim() };
+                articleData[outline.length - 1] = { title: lastTitle, content: fileContentsNoSpaces.slice(start + lastTitle.length).trim() };
             } catch (error) {
                 console.error('Error extracting article data for last article:', error);
             }
