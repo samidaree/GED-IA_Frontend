@@ -72,15 +72,15 @@ const Folder = () => {
                 articleData = { 0: { title: file.name, start: 0, end: fileContents.length } };
             }
 
-            console.log("fileContents" + fileContents);
+            //console.log("fileContents" + fileContents);
 
             // Send the file contents to the backend
-            const response = await fetch('http://localhost:5000/upload-text', {
+            const response = await fetch('http://localhost:5000/openai/text', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ text: fileContents })
+                body: JSON.stringify({ text: articleData[2] })
             });
 
             const responseData = await response.text();
