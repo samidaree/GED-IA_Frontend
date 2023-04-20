@@ -106,16 +106,19 @@ const Folder = () => {
 
         // Extract text for each article based on the outline
         let startIndex = fileContents.toLowerCase().replace(/\s/g, '').indexOf(outline[0].title.replace(/\s/g, '').toLowerCase());
-        console.log('Start index:', startIndex); // Check the start index
+        console.log("titre : ", outline[0].title.replace(/\s/g, '').toLowerCase())
+        console.log("texte : ", fileContents.toLowerCase().replace(/\s/g, '').slice(5609, 6750))
+        console.log('startIndex : ', startIndex);
+        console.log("first slice : ", fileContents.slice(startIndex, startIndex + 400))
 
         // Skip the first occurrence of the title
         const titleNoSpaces = outline[0].title.replace(/\s/g, '').toLowerCase();
         const fileContentsNoSpaces = fileContents.replace(/\s/g, '').toLowerCase();
         startIndex = fileContentsNoSpaces.indexOf(titleNoSpaces, startIndex + titleNoSpaces.length);
+        console.log("new start index : ", startIndex);
 
         for (let i = 0; i < outline.length - 1; i++) {
             const titleNoSpaces = outline[i].title.replace(/\s/g, '').toLowerCase();
-            const fileContentsNoSpaces = fileContents.replace(/\s/g, '').toLowerCase();
             const start = fileContentsNoSpaces.indexOf(titleNoSpaces, startIndex);
             if (start === -1) continue;
 
@@ -127,7 +130,7 @@ const Folder = () => {
             console.log(`Article ${i} end position: ${end}`);
 
             try {
-                articleData[i] = { title: outline[i].title, content: fileContents.slice(start + outline[i].title.length, end).trim() };
+                articleData[i] = { title: outline[i].title, content: fileContents.slice(start, end).trim() };
             } catch (error) {
                 console.error(`Error extracting article data for article ${i}:`, error);
             }
