@@ -8,6 +8,42 @@ const File = (props) => {
     const location = useLocation();
     const fileName = location.state.fileName;
     const fileThumbnail = location.state.fileThumbnail;
+    const articleData = location.state.articleData;
+
+    async function makeSummary() {
+        console.log("make summary")
+
+        Object.values(articleData).forEach(article => {
+            const { title, content } = article;
+            console.log(`Title: ${title}`);
+            console.log(`Article content: ${content}`);
+        });
+
+        const requestBody = {
+            articleData: articleData
+        };
+        const response = await fetch('http://localhost:5000/openai/text', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        }).then(response => response.json()).then(data => {
+            const summary = data.summary;
+            console.log(summary);
+            console.log("summary")
+            for (const key in summary) {
+                const article = summary[key];
+                console.log(`${key} \n ${article}`);
+            }
+        }).catch(error => console.error(error));
+
+
+
+
+
+        //console.log('Response received from server:', responseData);
+    }
     return (
         <>
             <Logo />
@@ -20,7 +56,7 @@ const File = (props) => {
                     <img src={fileThumbnail}></img>
                 </div>
                 <div className="buttons">
-                    <button className="button-summary">
+                    <button className="button-summary" onClick={makeSummary}>
                         Faire un résumé
                     </button>
                     <button className="button-index">

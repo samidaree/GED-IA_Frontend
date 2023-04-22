@@ -44,7 +44,10 @@ const Folder = () => {
     }
 
 
-
+    /**
+     * 
+     * @param {} index 
+     */
     async function handleClick(index) {
         console.log('Clicked on card:', index);
         setSelectedFile(fileList[index]);
@@ -61,11 +64,7 @@ const Folder = () => {
                 fileContents = data.text;
                 thumbnail = data.thumbnail;
                 articleData = extractArticles(data.outline, fileContents);
-                Object.values(articleData).forEach(article => {
-                    const { title, content } = article;
-                    console.log(`Title: ${title}`);
-                    console.log(`Article content: ${content}`);
-                });
+
             } else {
                 fileContents = await readFileAsText(file);
                 thumbnail = fileList[index].thumbnail;
@@ -74,25 +73,13 @@ const Folder = () => {
 
             //console.log("fileContents" + fileContents);
 
-            // Send the file contents to the backend
-            const response = await fetch('http://localhost:5000/openai/text', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ text: articleData[2] })
-            });
-
-            const responseData = await response.text();
-
-            console.log('Response received from server:', responseData);
 
             navigate('/file', {
                 state: {
                     selectedFile: fileList[index],
                     fileName: fileList[index].name,
                     fileThumbnail: thumbnail,
-                    //articleData: extractArticles(data.outline, data.pageCount, fileContents) // Update here
+                    articleData: extractArticles(data.outline, fileContents) // Update here
                 }
             });
         } catch (error) {
@@ -106,10 +93,10 @@ const Folder = () => {
 
         // Extract text for each article based on the outline
         let startIndex = fileContents.toLowerCase().replace(/\s/g, '').indexOf(outline[0].title.replace(/\s/g, '').toLowerCase());
-        console.log("titre : ", outline[0].title.replace(/\s/g, '').toLowerCase())
+        /*console.log("titre : ", outline[0].title.replace(/\s/g, '').toLowerCase())
         console.log("texte : ", fileContents.toLowerCase().replace(/\s/g, '').slice(5609, 6750))
         console.log('startIndex : ', startIndex);
-        console.log("first slice : ", fileContents.slice(startIndex, startIndex + 400))
+        console.log("first slice : ", fileContents.slice(startIndex, startIndex + 400)) */
 
         // Skip the first occurrence of the title
         const titleNoSpaces = outline[0].title.replace(/\s/g, '').toLowerCase();

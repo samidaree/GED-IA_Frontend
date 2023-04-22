@@ -42,6 +42,8 @@
   content: "";
   width: 400px;
   height: 400px;
+  //  background: linear-gradient(225deg, rgb(184, 111, 244) 20%, rgb(119, 232, 176)60%, rgb(128, 26, 212) 100%);
+
   background: linear-gradient(225deg, yellow 0%, $color-2 50%, #c625d0 100%);
   position: absolute;
   top: -50px;
