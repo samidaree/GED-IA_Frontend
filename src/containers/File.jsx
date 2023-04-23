@@ -71,24 +71,36 @@ const File = (props) => {
                         Faire un résumé
                     </button>
                     <div className="inputBox">
+                        <div class="wrapper">
 
-                        <textarea id="summary" placeholder=" ">
+                            <textarea id="summary" placeholder=" ">
 
-                        </textarea>
-                        <span>Résumé</span>
+                            </textarea>
+                            <span>Résumé</span>
+                        </div>
                     </div>
                     <button className="button-index">
                         Indexer
                     </button>
                     <div class="inputBox">
+                        <div class="wrapper">
 
-                        <textarea id="keywords" placeholder=" " >
+                            <textarea id="keywords" placeholder=" " >
 
-                        </textarea>
-                        <span>Mots clefs</span>
+                            </textarea>
+                            <span>Mots clefs</span>
+                        </div>
+                    </div>
+                    <div class="saveBack">
+
+                        <button >
+                            Sauvegarder
+                        </button>
+                        <button >
+                            Choisir un autre fichier
+                        </button>
                     </div>
                 </div>
-
 
 
 
