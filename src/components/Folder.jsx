@@ -3,15 +3,19 @@ import Card from "./Card";
 import { Document, Page, pdfjs } from "react-pdf";
 import * as pdfjsLib from 'pdfjs-dist';
 import { BrowserRouter, Route, Link, useNavigate } from 'react-router-dom';
+import Uploader from './Uploader';
 
 
 const Folder = () => {
 
-    const [content, setContent] = useState(<div id="box-file-upload" >
-        <label htmlFor="folder" className="file-upload" >
-            Choisir un dossier
-        </label>
-        <input type="file" name="file" id="folder" onChange={handleFileUpload} style={{ display: "none" }} webkitdirectory="true" directory="true" multiple ></input>
+    const [content, setContent] = useState(<div className=".uploader">
+        <form action="" onClick={() => {
+            document.querySelector(".input-field").click();
+        }}>
+            <input type="file" onChange={handleFileUpload} className='input-field' accept=".pdf" multiple hidden></input>
+            <ion-icon id="icon" name="cloud-upload-outline"></ion-icon>
+            <p> Parcourir des fichiers</p>
+        </form>
     </div>)
     const [fileList, setFileList] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);

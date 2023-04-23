@@ -66,25 +66,19 @@ const File = (props) => {
             <Logo />
             <Navigation />
             { /*<SearchBar /> */}
-            <div class="openai">
+            <div className="openai">
 
-                <div class="key">
-                    <label for="keyInput">
-                        Saisir une clé API
-                    </label>
-                    <input type="text" id="keyInput" />
-
-                </div>
-
-                <div class="prompt">
-                    <label for="promptInput">
-                        Saisir un prompt
-                    </label>
-                    <input type="text" id="promptInput" />
+                <div className="key">
+                    <input type="text" id="keyInput" placeholder=" " />
+                    <span>Saisissez une clé API</span>
 
                 </div>
 
 
+            </div>
+            <div className="dividerBloc">
+
+                <span className="divider"></span>
             </div>
             <div className="file-page">
 
@@ -93,25 +87,18 @@ const File = (props) => {
 
                 </div>
 
-                <div class="function">
+                <div className="function">
 
-                    <button className="button-summary" onClick={makeSummary}>
-                        Faire un résumé
-                    </button>
-                    <div className="inputBox">
-                        <div class="wrapper">
+                    <div className="indexation">
+                        <input type="text" id="index" placeholder=" " />
+                        <span>Prompt</span>
+                        <button className="button-index">
+                            Indexer
+                        </button>
 
-                            <textarea id="summary" placeholder=" ">
-
-                            </textarea>
-                            <span>Résumé</span>
-                        </div>
                     </div>
-                    <button className="button-index">
-                        Indexer
-                    </button>
-                    <div class="inputBox">
-                        <div class="wrapper">
+                    <div className="inputBox">
+                        <div className="wrapper">
 
                             <textarea id="keywords" placeholder=" " >
 
@@ -119,13 +106,40 @@ const File = (props) => {
                             <span>Mots clés</span>
                         </div>
                     </div>
-                    <div class="saveBack">
+                    <div className="summary">
 
-                        <button >
-                            Choisir un autre fichier
+                        <input type="text" id="sum" placeholder=" " />
+                        <span>Prompt</span>
+                        <button className="button-summary" onClick={makeSummary}>
+                            Faire un résumé
                         </button>
-                        <button >
-                            Sauvegarder dans la base de données                        </button>
+                    </div>
+                    <div className="inputBox">
+                        <div className="wrapper">
+
+                            <textarea id="summary" placeholder=" ">
+
+                            </textarea>
+                            <span>Résumé</span>
+                        </div>
+                    </div>
+
+                    <div className="saveBack">
+
+                        <button className="back">
+                            <span className="buttonText">
+
+                                Choisir un autre fichier
+                            </span>
+                            <span className="buttonIcon">
+                                <ion-icon name="return-up-back-outline"></ion-icon> </span>                        </button>
+                        <button className="save" >
+                            <span className="buttonText">
+                                Sauvegarder dans la base de données
+                            </span>
+                            <span className="buttonIcon">
+                                <ion-icon name="save-outline"></ion-icon> </span>
+                        </button>
                     </div>
                 </div>
 
