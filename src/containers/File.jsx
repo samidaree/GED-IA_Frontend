@@ -13,6 +13,7 @@ import SearchBar from "../components/SearchBar";
 */
 const File = (props) => {
     const location = useLocation();
+    const file = location.state.selectedFile;
     const fileName = location.state.fileName;
     const fileThumbnail = location.state.fileThumbnail;
     const articleData = location.state.articleData;
@@ -54,15 +55,42 @@ const File = (props) => {
 
         //console.log('Response received from server:', responseData);
     }
+
+    function openFile() {
+
+        window.open(URL.createObjectURL(file.fileObject), '_blank');
+
+    }
     return (
         <>
             <Logo />
             <Navigation />
             { /*<SearchBar /> */}
+            <div class="openai">
+
+                <div class="key">
+                    <label for="keyInput">
+                        Saisir une clé API
+                    </label>
+                    <input type="text" id="keyInput" />
+
+                </div>
+
+                <div class="prompt">
+                    <label for="promptInput">
+                        Saisir un prompt
+                    </label>
+                    <input type="text" id="promptInput" />
+
+                </div>
+
+
+            </div>
             <div className="file-page">
 
-                <div className="file-cover">
-                    <img src={fileThumbnail}></img>
+                <div className="file-cover" onClick={openFile}>
+                    <img src={fileThumbnail} ></img>
+
                 </div>
 
                 <div class="function">
@@ -88,17 +116,16 @@ const File = (props) => {
                             <textarea id="keywords" placeholder=" " >
 
                             </textarea>
-                            <span>Mots clefs</span>
+                            <span>Mots clés</span>
                         </div>
                     </div>
                     <div class="saveBack">
 
                         <button >
-                            Sauvegarder
-                        </button>
-                        <button >
                             Choisir un autre fichier
                         </button>
+                        <button >
+                            Sauvegarder dans la base de données                        </button>
                     </div>
                 </div>
 

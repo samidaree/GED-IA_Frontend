@@ -5,7 +5,29 @@
   justify-content: space-around;
 }
 
+
+.openai {
+  display: flex;
+  justify-content: space-around;
+  margin: 40px;
+}
+
+.prompt input {
+  width: 400px;
+  padding: 15px;
+  margin: 10px;
+}
+
+.key input {
+  width: 400px;
+  margin: 10px;
+  padding: 15px;
+}
+
+
 .file-name {
+  height: 200px;
+  width: 350px;
   margin: 30px;
   text-align: center;
   color: $color-3;
@@ -13,20 +35,29 @@
 
 .file-cover {
   text-align: center;
-  border-radius: 20px;
+  margin: 15px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 10px black;
+  cursor: pointer;
 
 }
 
+.file-cover:hover img {
+  transform: scale(1.1) rotate(-3deg);
+}
+
 .file-cover img {
-  box-shadow: 0px 0px 10px black;
-  margin: 20px;
-  border-radius: 20px;
+  border-radius: 10px;
+  transition: 0.5s;
+
 }
 
 
 
 .button-summary,
 .button-index {
+  font-weight: bold;
   background: transparent;
   border: 0;
   color: white;
@@ -104,7 +135,7 @@
   color: $color-2 ;
   background: $white;
 
-  transform: translateX(35px) translateY(-8px);
+  transform: translateX(35px) translateY(-10px);
   padding: 0 10px;
   border-left: 1px solid $color-2;
 }
@@ -114,7 +145,7 @@
   color: $color-1 ;
   background: $white;
 
-  transform: translateX(35px) translateY(-8px);
+  transform: translateX(35px) translateY(-10px);
   padding: 0 10px;
   border-left: 1px solid $color-1;
 }
@@ -140,7 +171,7 @@
 .wrapper {
   margin: 40px auto;
   padding-top: 20px;
-  height: 320px;
+  height: 250px;
   border: 1px solid black;
   border-radius: 10px;
 }
