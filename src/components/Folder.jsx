@@ -18,9 +18,9 @@ const Folder = () => {
 
         <div id="alert" className="alert hide">
             <ion-icon id="icon" name="alert-circle-outline"></ion-icon>
-            <span class="msg">Votre fichier ne contient pas de table de matières</span>
-            <span class="close-btn" onClick={closeAlert}>
-                <ion-icon class="close" name="close-outline"></ion-icon>
+            <span className="msg">Votre fichier ne contient pas de table de matières</span>
+            <span className="close-btn" onClick={closeAlert}>
+                <ion-icon className="close" name="close-outline"></ion-icon>
             </span>
         </div>
     </div>)

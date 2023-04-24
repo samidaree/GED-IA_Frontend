@@ -49,22 +49,41 @@ const File = (props) => {
             prompt: prompt,
             key: apiKey,
         };
-        const response = await fetch('http://localhost:5000/openai/text', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-        }).then(response => response.json()).then(data => {
-            const summary = data.summary;
-            console.log(summary);
-            console.log("summary")
-            for (const key in summary) {
-                const article = summary[key];
-                summaries += `${key} ${article}`
-                //console.log(`${key} ${article}`);
+        try {
+            const response = await fetch("http://localhost:5000/openai/text", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestBody)
+            });
+            if (response.status === 200) {
+                const data = await response.json();
+                const summary = data.summary;
+
+                for (const key in summary) {
+                    const article = summary[key];
+                    summaries += `${key} ${article}`;
+                }
+            } else if (response.status === 401) {
+                const errorData = await response.json();
+                console.log("errorData.error");
+                const alert = document.getElementById("alert");
+                console.log(alert);
+                alert.classList.add("show");
+                alert.classList.remove("hide");
+
+                console.error('Error reading file:', error);
+                console.log(alert);
+                // Handle invalid API key error
+            } else {
+                throw new Error(`HTTP status code ${response.status}`);
             }
-        }).catch(error => console.error(error));
+        } catch (error) {
+            console.error(error);
+            // Handle error
+        }
+
 
         const myTextArea = document.getElementById("summary");
         myTextArea.value = summaries;
@@ -101,23 +120,48 @@ const File = (props) => {
             key: apiKey
         };
 
-        const response = await fetch("http://localhost:5000/openai/key", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(requestBody)
-        }).then(response => response.json()).then(data => {
-            const keywordArray = data.keywords;
-            console.log(keywordArray);
-            for (const key in keywordArray) {
-                const keyword = keywordArray[key];
-                keywords += `${key} ${keyword}`;
+        try {
+            const response = await fetch("http://localhost:5000/openai/key", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestBody)
+            });
+            if (response.status === 200) {
+                const data = await response.json();
+                const keywordArray = data.keywords;
+                console.log(keywordArray);
+                for (const key in keywordArray) {
+                    const keyword = keywordArray[key];
+                    keywords += `${key} ${keyword}`;
+                }
+            } else if (response.status === 401) {
+                const errorData = await response.json();
+                console.log("errorData.error");
+                const alert = document.getElementById("alert");
+                console.log(alert);
+                alert.classList.add("show");
+                alert.classList.remove("hide");
+
+                console.error('Error reading file:', error);
+                console.log(alert);
+                // Handle invalid API key error
+            } else {
+                throw new Error(`HTTP status code ${response.status}`);
             }
-        }).catch(error => console.error(error));
+        } catch (error) {
+            console.error(error);
+            // Handle error
+        }
 
         const myTextArea = document.getElementById("keywords");
         myTextArea.value = keywords;
+
+    }
+    function closeAlert() {
+        const alert = document.getElementById("alert");
+        alert.classList.add("hide");
 
     }
     return (
@@ -208,6 +252,13 @@ const File = (props) => {
 
 
             </div >
+            <div id="alert" className="alert hide">
+                <ion-icon id="icon" name="alert-circle-outline"></ion-icon>
+                <span className="msg">Clé API invalide</span>
+                <span className="close-btn" onClick={closeAlert}>
+                    <ion-icon className="close" name="close-outline"></ion-icon>
+                </span>
+            </div>
         </>
 
     )

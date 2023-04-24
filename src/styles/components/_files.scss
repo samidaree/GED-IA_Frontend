@@ -181,6 +181,7 @@
 .summary,
 .indexation {
   width: 100%;
+  text-align: center;
   position: relative;
   outline: none;
 }
@@ -188,7 +189,7 @@
 .summary span,
 .indexation span {
   position: absolute;
-  left: -15px;
+  left: 30px;
   top: 10px;
   font-size: 18px;
   padding: 30px;
