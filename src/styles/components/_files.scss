@@ -1,3 +1,7 @@
+.navlink-active {
+  text-decoration: none;
+}
+
 .openai {
   display: flex;
   justify-content: center;
@@ -387,6 +391,8 @@ textarea::-webkit-scrollbar-thumb {
 
 .back:active {
   background: #d6453d;
+  text-decoration: none;
+
 }
 
 .save:active {
@@ -400,6 +406,7 @@ textarea::-webkit-scrollbar-thumb {
   padding: 0 24px;
   color: white;
   height: 100%;
+
 }
 
 .buttonIcon {

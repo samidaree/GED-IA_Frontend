@@ -3,7 +3,6 @@ import Card from "./Card";
 import { Document, Page, pdfjs } from "react-pdf";
 import * as pdfjsLib from 'pdfjs-dist';
 import { BrowserRouter, Route, Link, useNavigate } from 'react-router-dom';
-import Uploader from './Uploader';
 
 
 const Folder = () => {
@@ -16,6 +15,14 @@ const Folder = () => {
             <ion-icon id="icon" name="cloud-upload-outline"></ion-icon>
             <p> Parcourir des fichiers</p>
         </form>
+
+        <div id="alert" className="alert hide">
+            <ion-icon id="icon" name="alert-circle-outline"></ion-icon>
+            <span class="msg">Votre fichier ne contient pas de table de matières</span>
+            <span class="close-btn" onClick={closeAlert}>
+                <ion-icon class="close" name="close-outline"></ion-icon>
+            </span>
+        </div>
     </div>)
     const [fileList, setFileList] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
@@ -47,6 +54,12 @@ const Folder = () => {
         //setContent(); 
     }
 
+    function closeAlert() {
+        const alert = document.getElementById("alert");
+        alert.classList.add("hide");
+
+    }
+
 
     /**
      * 
@@ -67,6 +80,7 @@ const Folder = () => {
                 data = await readPdfFile(file);
                 fileContents = data.text;
                 thumbnail = data.thumbnail;
+
                 articleData = extractArticles(data.outline, fileContents);
 
             } else {
@@ -83,12 +97,20 @@ const Folder = () => {
                     selectedFile: fileList[index],
                     fileName: fileList[index].name,
                     fileThumbnail: thumbnail,
-                    articleData: extractArticles(data.outline, fileContents) // Update here
+                    fileContents: fileContents,
+                    articleData: articleData// Update here
                 }
             });
         } catch (error) {
+            const alert = document.getElementById("alert");
+            console.log(alert);
+            alert.classList.add("show");
+            alert.classList.remove("hide");
+
             console.error('Error reading file:', error);
+            console.log(alert);
         }
+
     }
 
 

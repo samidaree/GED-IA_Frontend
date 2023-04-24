@@ -1,4 +1,6 @@
 import React from "react";
+import { NavLink } from "react-router-dom"
+
 import { useLocation } from "react-router";
 import Logo from "../components/Logo";
 import Navigation from "../components/Navigation";
@@ -15,6 +17,7 @@ const File = (props) => {
     const location = useLocation();
     const file = location.state.selectedFile;
     const fileName = location.state.fileName;
+    const fileContents = location.state.fileContents;
     const fileThumbnail = location.state.fileThumbnail;
     const articleData = location.state.articleData;
 
@@ -22,14 +25,29 @@ const File = (props) => {
         console.log("make summary")
         let summaries = "";
 
+
+        /* Debugging */
         Object.values(articleData).forEach(article => {
             const { title, content } = article;
             console.log(`Title: ${title}`);
             console.log(`Article content: ${content}`);
         });
 
+
+        var inputPrompt = document.getElementById("sum")
+
+        var prompt = inputPrompt.value
+
+        console.log("prompt " + prompt)
+        var inputKey = document.getElementById("keyInput")
+
+        var apiKey = inputKey.value
+        console.log("API KEY " + apiKey)
+
         const requestBody = {
-            articleData: articleData
+            articleData: articleData,
+            prompt: prompt,
+            key: apiKey,
         };
         const response = await fetch('http://localhost:5000/openai/text', {
             method: 'POST',
@@ -59,6 +77,47 @@ const File = (props) => {
     function openFile() {
 
         window.open(URL.createObjectURL(file.fileObject), '_blank');
+
+    }
+
+    async function makeIndex() {
+
+        let keywords = "";
+        var inputPrompt = document.getElementById("index")
+
+        var prompt = inputPrompt.value
+
+
+        var inputKey = document.getElementById("keyInput")
+
+        var apiKey = inputKey.value
+
+        console.log("longueur de prompt " + prompt.trim().length);
+        console.log("longueur de apiKey " + apiKey.trim().length)
+
+        const requestBody = {
+            articleData: articleData,
+            prompt: prompt,
+            key: apiKey
+        };
+
+        const response = await fetch("http://localhost:5000/openai/key", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(requestBody)
+        }).then(response => response.json()).then(data => {
+            const keywordArray = data.keywords;
+            console.log(keywordArray);
+            for (const key in keywordArray) {
+                const keyword = keywordArray[key];
+                keywords += `${key} ${keyword}`;
+            }
+        }).catch(error => console.error(error));
+
+        const myTextArea = document.getElementById("keywords");
+        myTextArea.value = keywords;
 
     }
     return (
@@ -92,7 +151,7 @@ const File = (props) => {
                     <div className="indexation">
                         <input type="text" id="index" placeholder=" " />
                         <span>Prompt</span>
-                        <button className="button-index">
+                        <button className="button-index" onClick={makeIndex}>
                             Indexer
                         </button>
 
@@ -125,14 +184,17 @@ const File = (props) => {
                     </div>
 
                     <div className="saveBack">
+                        <NavLink to="/" className="navlink-active">
 
-                        <button className="back">
-                            <span className="buttonText">
+                            <button className="back">
+                                <span className="buttonText">
 
-                                Choisir un autre fichier
-                            </span>
-                            <span className="buttonIcon">
-                                <ion-icon name="return-up-back-outline"></ion-icon> </span>                        </button>
+                                    Choisir un autre fichier
+                                </span>
+                                <span className="buttonIcon">
+                                    <ion-icon name="return-up-back-outline"></ion-icon> </span>
+                            </button>
+                        </NavLink>
                         <button className="save" >
                             <span className="buttonText">
                                 Sauvegarder dans la base de données
