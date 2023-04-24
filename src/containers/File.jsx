@@ -50,7 +50,7 @@ const File = (props) => {
             key: apiKey,
         };
         try {
-            const response = await fetch("http://localhost:5000/openai/text", {
+            const response = await fetch("https://ged-ia-api.onrender.com/openai/text", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -121,7 +121,7 @@ const File = (props) => {
         };
 
         try {
-            const response = await fetch("https://ged-ia-api.onrender.com/", {
+            const response = await fetch("https://ged-ia-api.onrender.com/openai/key", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
