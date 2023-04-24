@@ -121,7 +121,7 @@ const File = (props) => {
         };
 
         try {
-            const response = await fetch("http://localhost:5000/openai/key", {
+            const response = await fetch("https://ged-ia-api.onrender.com/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
