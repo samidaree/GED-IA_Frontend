@@ -104,7 +104,7 @@ const Folder = () => {
                     fileName: fileList[index].name,
                     fileThumbnail: thumbnail,
                     fileContents: fileContents,
-                    articleData: articleData// Update here
+                    articleData: articleData
                 }
             });
         } catch (error) {
@@ -125,12 +125,9 @@ const Folder = () => {
 
         // Extract text for each article based on the outline
         let startIndex = fileContents.toLowerCase().replace(/\s/g, '').indexOf(outline[0].title.replace(/\s/g, '').toLowerCase());
-        /*console.log("titre : ", outline[0].title.replace(/\s/g, '').toLowerCase())
-        console.log("texte : ", fileContents.toLowerCase().replace(/\s/g, '').slice(5609, 6750))
-        console.log('startIndex : ', startIndex);
-        console.log("first slice : ", fileContents.slice(startIndex, startIndex + 400)) */
 
-        // Skip the first occurrence of the title
+
+        // Skip the first occurrence of the title = first occurence in TOC
         const titleNoSpaces = outline[0].title.replace(/\s/g, '').toLowerCase();
         const fileContentsNoSpaces = fileContents.replace(/\s/g, '').toLowerCase();
         startIndex = fileContentsNoSpaces.indexOf(titleNoSpaces, startIndex + titleNoSpaces.length);
@@ -204,8 +201,8 @@ const Folder = () => {
         let outline = null;
 
         try {
-            outline = await pdfData.getOutline(); // Get the outline data
-            console.log(outline); // Log the outline data to the console
+            outline = await pdfData.getOutline();
+            console.log(outline);
         } catch (error) {
             console.error('Error getting outline:', error);
         }

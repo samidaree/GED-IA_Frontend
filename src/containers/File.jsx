@@ -4,15 +4,7 @@ import { NavLink } from "react-router-dom"
 import { useLocation, useNavigate } from "react-router";
 import Logo from "../components/Logo";
 import Navigation from "../components/Navigation";
-import SearchBar from "../components/SearchBar";
 
-/* Mettre la possibilité de changer le prompt à gauche avec la couverture
-    mettre une barre qui sépare la couverture et les fonctions 
-    rajouter une animation sur la couverture
-    mettre les bouttons sauvegarder dans la base de données et 
-    choiir un autre fichier en bas des fonctions et couverture 
-    
-*/
 const File = (props) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -69,6 +61,7 @@ const File = (props) => {
                     summaries += `${key} ${article}`;
                 }
             } else if (response.status === 401) {
+                // Handle invalid API key error
                 const errorData = await response.json();
                 console.log("errorData.error");
                 const alert = document.getElementById("alert");
@@ -78,13 +71,11 @@ const File = (props) => {
 
                 console.error('Error reading file:', error);
                 console.log(alert);
-                // Handle invalid API key error
             } else {
                 throw new Error(`HTTP status code ${response.status}`);
             }
         } catch (error) {
             console.error(error);
-            // Handle error
         }
 
 
@@ -106,7 +97,7 @@ const File = (props) => {
         const keyword = document.getElementById("keywords").value;
         const summary = document.getElementById("summary").value;
 
-        const url = "https://ged-ia-api.onrender.com/openai/db"; // Replace this with the actual URL of your server-side endpoint
+        const url = "https://ged-ia-api.onrender.com/openai/db";
 
         const requestBody = {
             name: fileName,
@@ -181,6 +172,7 @@ const File = (props) => {
                     keywords += `${key} ${keyword}`;
                 }
             } else if (response.status === 401) {
+                // Handle invalid API key error
                 const errorData = await response.json();
                 console.log("errorData.error");
                 const alert = document.getElementById("alert");
@@ -190,7 +182,6 @@ const File = (props) => {
 
                 console.error('Error reading file:', error);
                 console.log(alert);
-                // Handle invalid API key error
             } else {
                 throw new Error(`HTTP status code ${response.status}`);
             }
