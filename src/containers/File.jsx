@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom"
 
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import Logo from "../components/Logo";
 import Navigation from "../components/Navigation";
 import SearchBar from "../components/SearchBar";
@@ -14,10 +14,12 @@ import SearchBar from "../components/SearchBar";
     
 */
 const File = (props) => {
+    const navigate = useNavigate();
     const location = useLocation();
     const file = location.state.selectedFile;
     const fileName = location.state.fileName;
     const fileContents = location.state.fileContents;
+    const fileList = location.state.fileList;
     const fileThumbnail = location.state.fileThumbnail;
     const articleData = location.state.articleData;
 
@@ -164,6 +166,11 @@ const File = (props) => {
         alert.classList.add("hide");
 
     }
+
+    const handleBack = () => {
+        navigate('/', { state: { fileList } });
+    };
+
     return (
         <>
             <Logo />
@@ -228,17 +235,17 @@ const File = (props) => {
                     </div>
 
                     <div className="saveBack">
-                        <NavLink to="/" className="navlink-active">
+                        { /* <NavLink to="/" className="navlink-active"> */}
 
-                            <button className="back">
-                                <span className="buttonText">
+                        <button className="back" onClick={handleBack}>
+                            <span className="buttonText">
 
-                                    Choisir un autre fichier
-                                </span>
-                                <span className="buttonIcon">
-                                    <ion-icon name="return-up-back-outline"></ion-icon> </span>
-                            </button>
-                        </NavLink>
+                                Choisir un autre fichier
+                            </span>
+                            <span className="buttonIcon">
+                                <ion-icon name="return-up-back-outline"></ion-icon> </span>
+                        </button>
+                        {/*</NavLink>*/}
                         <button className="save" >
                             <span className="buttonText">
                                 Sauvegarder dans la base de données

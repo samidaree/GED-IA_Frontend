@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from "react-router";
+
 import Card from "./Card";
 import { Document, Page, pdfjs } from "react-pdf";
 import * as pdfjsLib from 'pdfjs-dist';
@@ -24,7 +26,10 @@ const Folder = () => {
             </span>
         </div>
     </div>)
-    const [fileList, setFileList] = useState([]);
+    const location = useLocation();
+    const state = location.state;
+
+    const [fileList, setFileList] = useState(state ? state.fileList : []);
     const [selectedFile, setSelectedFile] = useState(null);
 
     const navigate = useNavigate();
@@ -94,6 +99,7 @@ const Folder = () => {
 
             navigate('/file', {
                 state: {
+                    fileList: fileList,
                     selectedFile: fileList[index],
                     fileName: fileList[index].name,
                     fileThumbnail: thumbnail,
