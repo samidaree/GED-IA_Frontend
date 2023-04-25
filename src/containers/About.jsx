@@ -10,7 +10,9 @@ const About = () => {
             <Logo />
             <Navigation />
             { /*<SearchBar /> */}
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius corporis explicabo ea cupiditate, architecto modi libero soluta obcaecati doloribus, voluptatum dolore? Aperiam sequi alias itaque placeat magni repellendus excepturi aliquam veniam repudiandae earum soluta, quia expedita molestiae sit dolor laboriosam molestias eos delectus quam qui nam quae vel provident? Cum, beatae. Incidunt quo culpa nobis dolore reprehenderit veniam ullam enim eum, libero, dolorum dolores in cum quas quasi deleniti esse saepe sed nihil. Molestiae recusandae commodi obcaecati omnis sequi quas optio quasi est facere blanditiis aliquam officia, iusto dolorem quaerat, velit, quam laboriosam ipsum nam. Dolores vel a libero necessitatibus</p>
+            <p>La GED IA est une application web de gestion de document automatique conçue pour faciliter la lecture et la gestion des fichiers PDF avec table de matières. Elle permet de générer un résumé des articles et récupérer les mots clés avant de les enregistrer dans une base de données.
+                Il est également possible de lire le fichier PDF dans un nouvel onglet ainsi que de saisir des prompts personnalisés qui détaillent les résumés et mots clés attendus.
+            </p>
         </div>
     );
 };
