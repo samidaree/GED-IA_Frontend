@@ -48,11 +48,12 @@ const File = (props) => {
 
         const requestBody = {
             articleData: articleData,
+            name: fileName,
             prompt: prompt,
             key: apiKey,
         };
         try {
-            const response = await fetch("https://ged-ia-api.onrender.com/openai/text", {
+            const response = await fetch("http://localhost:5000/openai/text", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -101,6 +102,46 @@ const File = (props) => {
 
     }
 
+    async function saveDB() {
+        const keyword = document.getElementById("keywords").value;
+        const summary = document.getElementById("summary").value;
+
+        const url = "http://localhost:5000/openai/db"; // Replace this with the actual URL of your server-side endpoint
+
+        const requestBody = {
+            name: fileName,
+            summary: summary,
+            keywords: keyword
+        };
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (response.status === 200) {
+                const data = await response.text();
+                const alert = document.getElementById("alertBD");
+                console.log(alert);
+                alert.classList.add("show");
+                alert.classList.remove("hide");
+                console.log(data);
+            } else {
+                const alert = document.getElementById("alertEchecBD");
+
+                alert.classList.add("show")
+                alert.classList.remove("hide");
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     async function makeIndex() {
 
         let keywords = "";
@@ -118,12 +159,13 @@ const File = (props) => {
 
         const requestBody = {
             articleData: articleData,
+            name: fileName,
             prompt: prompt,
             key: apiKey
         };
 
         try {
-            const response = await fetch("https://ged-ia-api.onrender.com/openai/key", {
+            const response = await fetch("http://localhost:5000/openai/key", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -166,6 +208,19 @@ const File = (props) => {
         alert.classList.add("hide");
 
     }
+
+    function closeAlertBD() {
+        const alert = document.getElementById("alertBD");
+        alert.classList.add("hide");
+
+    }
+
+    function closeAlertEchecBD() {
+        const alert = document.getElementById("alertEchecBD");
+        alert.classList.add("hide");
+
+    }
+
 
     const handleBack = () => {
         navigate('/', { state: { fileList } });
@@ -246,7 +301,7 @@ const File = (props) => {
                                 <ion-icon name="return-up-back-outline"></ion-icon> </span>
                         </button>
                         {/*</NavLink>*/}
-                        <button className="save" >
+                        <button className="save" onClick={saveDB} >
                             <span className="buttonText">
                                 Sauvegarder dans la base de données
                             </span>
@@ -263,6 +318,20 @@ const File = (props) => {
                 <ion-icon id="icon" name="alert-circle-outline"></ion-icon>
                 <span className="msg">Clé API invalide</span>
                 <span className="close-btn" onClick={closeAlert}>
+                    <ion-icon className="close" name="close-outline"></ion-icon>
+                </span>
+            </div>
+
+            <div id="alertBD" className="alertBD hide">
+                <ion-icon id="iconBD" name="checkmark-circle-outline"></ion-icon>                <span className="msgBD">Enregistrement effectué</span>
+                <span className="close-btnBD" onClick={closeAlertBD}>
+                    <ion-icon className="closeBD" name="close-outline"></ion-icon>
+                </span>
+            </div>
+            <div id="alertEchecBD" className="alert hide">
+                <ion-icon id="icon" name="alert-circle-outline"></ion-icon>
+                <span className="msg">Échec de l'enregistrement</span>
+                <span className="close-btn" onClick={closeAlertEchecBD}>
                     <ion-icon className="close" name="close-outline"></ion-icon>
                 </span>
             </div>
