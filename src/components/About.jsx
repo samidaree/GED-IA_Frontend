@@ -1,8 +1,12 @@
 
 import React from 'react';
-import Navigation from '../components/Navigation';
-import Logo from '../components/Logo';
+import Navigation from './Navigation';
+import Logo from './Logo';
 
+/**
+ * A React component representing the About page.
+ * @returns {JSX.Element} - The JSX element representing the component.
+ */
 const About = () => {
     return (
         <div>

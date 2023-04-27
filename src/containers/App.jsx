@@ -1,11 +1,15 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./Home";
-import About from "./About";
+import Home from "../components/Home";
+import About from "../components/About";
 import File from "./File";
 
 function App() {
 
+  /**
+ * A React component representing the root of the application that defines the routes and corresponding components for different paths.
+ * @returns {JSX.Element} - The JSX element representing the component.
+ */
   return (
     <BrowserRouter>
       <Routes>

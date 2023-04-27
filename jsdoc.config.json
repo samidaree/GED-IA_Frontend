@@ -1,0 +1,13 @@
+{
+    "source": {
+        "include": [
+            "./src",
+            "./src/components",
+            "./src/containers"
+        ],
+        "includePattern": ".jsx"
+    },
+    "opts": {
+        "destination": "./docs"
+    }
+}

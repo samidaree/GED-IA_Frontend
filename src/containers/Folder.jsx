@@ -1,13 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from "react-router";
 
-import Card from "./Card";
+import Card from "../components/Card";
 import { Document, Page, pdfjs } from "react-pdf";
 import * as pdfjsLib from 'pdfjs-dist';
 import { BrowserRouter, Route, Link, useNavigate } from 'react-router-dom';
 
 
+/**
+ * A component that allows users to upload and browse PDF files, displays uploaded files as cards,
+ * and navigates to a file view page when a card is clicked.
+ *
+ * @returns {JSX.Element} The Folder component
+ */
+
 const Folder = () => {
+
+    /**
+     * The state of the component, including the content to be displayed, the list of uploaded files, and the currently selected file
+     *
+     * @typedef {Object} FolderState
+     * @property {JSX.Element} content - The content to be displayed in the component
+     * @property {Array.<Object>} fileList - The list of uploaded files
+     * @property {Object} selectedFile - The currently selected file
+     */
+
+    /**
+     * The current state of the component
+     *
+     * @type {FolderState}
+     */
 
     const [content, setContent] = useState(<div className=".uploader">
         <form action="" onClick={() => {
@@ -26,18 +48,38 @@ const Folder = () => {
             </span>
         </div>
     </div>)
+
+    // Get the current location and state from the router
     const location = useLocation();
     const state = location.state;
 
+    /**
+     * The list of uploaded files
+     *
+     * @type {Array.<Object>}
+     */
     const [fileList, setFileList] = useState(state ? state.fileList : []);
+
+    /**
+     * The currently selected file
+     *
+     * @type {Object}
+     */
     const [selectedFile, setSelectedFile] = useState(null);
 
     const navigate = useNavigate();
 
+    // Use the useEffect hook to log the fileList to the console whenever it changes
     useEffect(() => {
         console.log(fileList);
     }, [fileList]);
 
+    /**
+    * Handles the user clicking on the file upload button, reads the contents of the uploaded file(s),
+    * extracts thumbnail image(s) from PDF files, and adds the file(s) to the list of uploaded files.
+    *
+    * @param {Event} event - The file upload event
+    */
     async function handleFileUpload(event) {
         const files = event.target.files;
         const fileListArray = Array.from(files);
@@ -59,6 +101,9 @@ const Folder = () => {
         //setContent(); 
     }
 
+    /**
+        * Closes the alert message displayed when an error occurs while clicking on a file that does not have a table of contents.
+        */
     function closeAlert() {
         const alert = document.getElementById("alert");
         alert.classList.add("hide");
@@ -67,9 +112,11 @@ const Folder = () => {
 
 
     /**
-     * 
-     * @param {} index 
-     */
+    * Handles the user clicking on a file card, reads the contents of the selected file,
+    * extracts articles from the PDF file, and navigates to the file view page.
+    *
+    * @param {number} index - The index of the selected file in the fileList state
+    */
     async function handleClick(index) {
         console.log('Clicked on card:', index);
         setSelectedFile(fileList[index]);
@@ -119,6 +166,13 @@ const Folder = () => {
 
     }
 
+    /**
+ * Extracts articles from the PDF file based on the table of contents.
+ *
+ * @param {Array.<Object>} outline - The table of contents for the PDF file
+ * @param {string} fileContents - The contents of the PDF file as a string
+ * @returns {Object} An object containing the titles and contents of each article in the PDF file
+ */
 
     function extractArticles(outline, fileContents) {
         const articleData = {};
@@ -170,6 +224,13 @@ const Folder = () => {
         return articleData;
     }
 
+    /**
+ * Reads a PDF file and returns its thumbnail image, number of pages, extracted text, and outline.
+ *
+ * @async
+ * @param {File} file - The PDF file to be read.
+ * @returns {Promise<{thumbnail: string, pageCount: number, text: string, outline: object}>} - An object containing the thumbnail image as a data URL, the number of pages, the extracted text, and the document outline (if available).
+ */
     async function readPdfFile(file) {
         const reader = new FileReader();
         const fileDataPromise = new Promise(resolve => {
