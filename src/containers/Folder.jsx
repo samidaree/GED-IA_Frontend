@@ -15,7 +15,6 @@ import { BrowserRouter, Route, Link, useNavigate } from 'react-router-dom';
  */
 
 const Folder = () => {
-
     /**
      * The state of the component, including the content to be displayed, the list of uploaded files, and the currently selected file
      *
