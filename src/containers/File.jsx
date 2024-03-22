@@ -62,7 +62,8 @@ const File = () => {
       prompt: prompt,
       key: apiKey,
     }
-    const url = 'http://localhost:5000/openai/text'
+    const url = 'https://ged-ia-api.onrender.com/openai/text'
+    //const url = 'http://localhost:5000/openai/text'
     try {
       // Send a POST request to the server and wait for the response
       const response = await fetch(url, {
@@ -118,8 +119,8 @@ const File = () => {
     const keyword = document.getElementById('keywords').value
     const summary = document.getElementById('summary').value
 
-    //const url = 'https://ged-ia-api.onrender.com/openai/db'
-    const url = 'http://localhost:5000/openai/db'
+    const url = 'https://ged-ia-api.onrender.com/openai/db'
+    //const url = 'http://localhost:5000/openai/db'
     // Create a request body with relevant data
     const requestBody = {
       name: fileName,
@@ -183,8 +184,8 @@ const File = () => {
       prompt: prompt,
       key: apiKey,
     }
-    // const url = 'https://ged-ia-api.onrender.com/openai/key'
-    const url = 'http://localhost:5000/openai/key'
+    const url = 'https://ged-ia-api.onrender.com/openai/key'
+    //const url = 'http://localhost:5000/openai/key'
     try {
       const response = await fetch(url, {
         method: 'POST',
